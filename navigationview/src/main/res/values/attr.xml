@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="carbon_navigationViewStyle" format="reference"/>
-    <declare-styleable name="NavigationView"/>
+    <declare-styleable name="NavigationView">
+        <attr name="headerLayout" format="reference"/>
+        <attr name="menu" format="reference"/>
+        <attr name="row_rippleColor" format="color"/>
+        <attr name="row_backGroundColor" format="color"/>
+        <attr name="subMenuDividerTextAppearance" format="reference"/>
+        <attr name="subMenuDividerColor" format="reference"/>
+    </declare-styleable>
 </resources>

@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import ayalma.ir.NavigationView.NavigationView;
 import ayalma.ir.NavigationView.R;
@@ -30,21 +31,13 @@ public class MainActivity extends AppCompatActivity{
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setMenu(R.menu.activity_main_drawer);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                drawer.openDrawer(navigationView);
-            }
-        });
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public boolean onNavigationItemSelected(int position)
+            {
+                Toast.makeText(getBaseContext(),"row "+(position+1)+" click",Toast.LENGTH_SHORT).show();
+                return false;
             }
         });
 
