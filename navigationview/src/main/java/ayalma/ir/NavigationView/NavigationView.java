@@ -70,22 +70,22 @@ public class NavigationView extends RecyclerView
             {
                 menu = a.getResourceId(attr, -1);
             }
-            else if (attr == R.styleable.NavigationView_row_rippleColor)
+            else if (attr == R.styleable.NavigationView_itemRippleColor)
             {
                 setRowRippleColor(a.getColor(attr,Color.parseColor("#252525")));
             }
-            else if (attr == R.styleable.NavigationView_row_backGroundColor)
+            else if (attr == R.styleable.NavigationView_itemBackgroundColor)
             {
                 setRowBackGroundColor(a.getColor(attr,Color.parseColor("#252525")));
 
             }
-            else if (attr == R.styleable.NavigationView_subMenuDividerColor)
+            else if (attr == R.styleable.NavigationView_itemIconTint)
             {
-
+                setItemIconTint(a.getColor(attr,Color.parseColor("#252525")));
             }
-            else if (attr == R.styleable.NavigationView_subMenuDividerTextAppearance)
+            else if (attr == R.styleable.NavigationView_itemTextColor)
             {
-
+                setItemTextColor(a.getColor(attr, Color.parseColor("#252525")));
             }
         }
 
@@ -190,13 +190,37 @@ public class NavigationView extends RecyclerView
 
     public void setRowBackGroundColor(int rowBackGroundColor) {
 
+        if (getAdapter() == null)
+        {
+            setAdapter(new Adapter());
+        }
+        ((Adapter) getAdapter()).setBackColor(rowBackGroundColor);
+    }
+
+    public void setItemIconTint(int itemIconTint) {
+        if (getAdapter() == null)
+        {
+            setAdapter(new Adapter());
+        }
+        ((Adapter) getAdapter()).setItemIconTint(itemIconTint);
+    }
+
+    public void setItemTextColor(int itemTextColor)
+    {
+        if (getAdapter() == null)
+        {
+            setAdapter(new Adapter());
+        }
+        ((Adapter) getAdapter()).setItemTextColor(itemTextColor);
     }
 
     public static class Adapter extends RecyclerView.Adapter<ViewHolder>
     {
         OnNavigationItemSelectedListener mListener;
         int rippleColor = Color.parseColor("#252525");
-        int backColor = Color.parseColor("#fefefe");
+        int backColor = Color.parseColor("#252525");
+        int itemTextColor = Color.parseColor("#000000");
+        int itemIconTint = Color.parseColor("#000000");
 
         private List<NavRowItem> items = null;
         private View headerView;
@@ -224,6 +248,9 @@ public class NavigationView extends RecyclerView
                 itemHolder.iv.setImageDrawable(items.get(position).getIcon());
                 itemHolder.tv.setText(items.get(position).getTitle());
 
+                itemHolder.iv.setColorFilter(itemIconTint);
+                itemHolder.tv.setTextColor(itemTextColor);
+
                 final int finalPosition = position;
                 itemHolder.ivc.setOnClickListener(new OnClickListener()
                 {
@@ -234,11 +261,16 @@ public class NavigationView extends RecyclerView
                     }
                 });
 
-                if (Build.VERSION.SDK_INT >= 21)
-                    itemHolder.ivc.setBackground(Util.getPressedColorRippleDrawable(backColor,rippleColor));
-                else
-                    itemHolder.ivc.setBackgroundDrawable(Util.getStateListDrawable(backColor,rippleColor));
+                if (Build.VERSION.SDK_INT >= 21) {
+                    itemHolder.itemView.setBackgroundColor(backColor);
+                    itemHolder.ivc.setBackgroundColor(backColor);
+                    itemHolder.ivc.setBackground(Util.getPressedColorRippleDrawable(backColor, rippleColor));
+                }
+                else {
+                    itemHolder.itemView.setBackgroundColor(backColor);
+                    itemHolder.ivc.setBackgroundDrawable(Util.getStateListDrawable(backColor, rippleColor));
 
+                }
                 itemHolder.dvc.setVisibility((items.get(position).isHeader()) ? VISIBLE : GONE);
                 itemHolder.stv.setText(items.get(position).getHeaderTitle());
             }
@@ -274,6 +306,22 @@ public class NavigationView extends RecyclerView
 
         public void setBackColor(int backColor) {
             this.backColor = backColor;
+        }
+
+        public int getItemTextColor() {
+            return itemTextColor;
+        }
+
+        public void setItemTextColor(int itemTextColor) {
+            this.itemTextColor = itemTextColor;
+        }
+
+        public int getItemIconTint() {
+            return itemIconTint;
+        }
+
+        public void setItemIconTint(int itemIconTint) {
+            this.itemIconTint = itemIconTint;
         }
 
         public void setItems(List<NavRowItem> items) {
