@@ -9,7 +9,6 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -373,8 +372,6 @@ public class NavigationView extends RecyclerView
 
         public headerHolder(View itemView) {
             super(itemView);
-            Log.d("width", "header width:" + itemView.getWidth());
-            itemView.setBackgroundColor(Color.parseColor("#ffcfcf"));
         }
 
     }
