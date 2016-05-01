@@ -16,7 +16,7 @@
     <ayalma.ir.NavigationView.NavigationView
         android:background="#fefefe"
         android:id="@+id/nav_view"
-        android:layout_width="200dp"
+        android:layout_width="360dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:fitsSystemWindows="true"
@@ -25,7 +25,7 @@
         app:menu="@menu/activity_main_drawer"
         app:itemRippleColor="@color/colorAccent"
         app:itemBackgroundColor="#fefefe"
-        app:itemTextColor="@color/colorAccent"
+        app:itemTextColor="#252525"
         app:itemIconTint="@color/colorAccent"
         />
 

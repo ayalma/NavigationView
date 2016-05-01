@@ -9,6 +9,7 @@ import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -109,9 +110,7 @@ public class NavigationView extends RecyclerView
 
         }
 
-        View view = LayoutInflater.from(getContext()).inflate(resId, null);
-
-        ((Adapter) getAdapter()).setHeaderView(view);
+        ((Adapter) getAdapter()).setHeaderView(resId);
     }
 
     public void setMenu(int resId)
@@ -223,15 +222,18 @@ public class NavigationView extends RecyclerView
         int itemIconTint = Color.parseColor("#000000");
 
         private List<NavRowItem> items = null;
-        private View headerView;
+        private int headerView;
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            if (viewType == HolderType.Header.getValue()) {
-                return new headerHolder(headerView);
+            View view ;
+            if (viewType == HolderType.Header.getValue())
+            {
+                view = inflater.inflate(headerView, parent, false);
+                return new headerHolder(view);
             } else {
-                View view = inflater.inflate(R.layout.navigation_row_rtl, parent, false);
+                view = inflater.inflate(R.layout.navigation_row_rtl, parent, false);
                 return new ItemHolder(view);
             }
 
@@ -241,7 +243,7 @@ public class NavigationView extends RecyclerView
         public void onBindViewHolder(ViewHolder holder, int position) {
             if (holder instanceof ItemHolder)
             {
-                if (headerView != null)
+                if (headerView != 0)
                     position = position - 1;
 
                 ItemHolder itemHolder = (ItemHolder) holder;
@@ -279,7 +281,7 @@ public class NavigationView extends RecyclerView
 
         @Override
         public int getItemCount() {
-            if (headerView != null)
+            if (headerView != 0)
                 return items.size() + 1;
             else return items.size();
         }
@@ -328,7 +330,7 @@ public class NavigationView extends RecyclerView
             this.items = items;
         }
 
-        public void setHeaderView(View headerView) {
+        public void setHeaderView(int headerView) {
             this.headerView = headerView;
         }
 
@@ -342,7 +344,7 @@ public class NavigationView extends RecyclerView
 
         private boolean isHeader(int position)
         {
-            return position == 0 && headerView != null;
+            return position == 0 && headerView != 0;
         }
     }
 
@@ -371,6 +373,8 @@ public class NavigationView extends RecyclerView
 
         public headerHolder(View itemView) {
             super(itemView);
+            Log.d("width", "header width:" + itemView.getWidth());
+            itemView.setBackgroundColor(Color.parseColor("#ffcfcf"));
         }
 
     }
