@@ -1,1 +1,1 @@
-include ':app', ':navigationview', ':ripplecompat'
+include ':app', ':navigationview'
