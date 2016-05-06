@@ -1,16 +1,13 @@
 package ayalma.ir.NavigationView;
 
-import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.StateListDrawable;
-import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
+import android.view.View;
 
-import java.util.Arrays;
+import ayalma.ir.ripplecompat.RippleDrawableFroyo;
+import ayalma.ir.ripplecompat.RippleDrawableLollipop;
+import ayalma.ir.ripplecompat.RippleDrawableMarshmallow;
 
 /**
  * Created by alimohammadi on 4/29/16.
@@ -19,41 +16,55 @@ import java.util.Arrays;
  */
 public class Util {
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static Drawable getPressedColorRippleDrawable(int normalColor, int pressedColor)
+    /*public static void initRippleDrawable(RippleView rippleView, AttributeSet attrs, int defStyleAttr) {
+        View view = (View) rippleView;
+        if (view.isInEditMode())
+            return;
+
+        TypedArray a = view.getContext().obtainStyledAttributes(attrs, R.styleable.NavigationView, defStyleAttr, 0);
+        ColorStateList color =  a.getColorStateList(R.styleable.Carbon_carbon_rippleColor);
+
+
+        if (color != null) {
+            ayalma.ir.ripplecompat.RippleDrawable.Style style = ayalma.ir.ripplecompat.RippleDrawable.Style.values()[a.getInt(R.styleable.Carbon_carbon_rippleStyle, ayalma.ir.ripplecompat.RippleDrawable.Style.Background.ordinal())];
+            boolean useHotspot = a.getBoolean(R.styleable.Carbon_carbon_rippleHotspot, true);
+            int radius = (int) a.getDimension(R.styleable.Carbon_carbon_rippleRadius, -1);
+
+            rippleView.setRippleDrawable(createRippleDrawable(color, style, view, useHotspot, 500));
+        }
+
+        a.recycle();
+    }*/
+
+
+    public static ayalma.ir.ripplecompat.RippleDrawable createRippleDrawable(ColorStateList color, ayalma.ir.ripplecompat.RippleDrawable.Style style, View view, boolean useHotspot, int radius)
     {
-        return new RippleDrawable(ColorStateList.valueOf(pressedColor),
-                null, getRippleMask(normalColor));
+        ayalma.ir.ripplecompat.RippleDrawable rippleDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rippleDrawable = new RippleDrawableMarshmallow(color, style == ayalma.ir.ripplecompat.RippleDrawable.Style.Background ? view.getBackground() : null, style);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            rippleDrawable = new RippleDrawableLollipop(color, style == ayalma.ir.ripplecompat.RippleDrawable.Style.Background ? view.getBackground() : null, style);
+        } else {
+            rippleDrawable = new RippleDrawableFroyo(color, style == ayalma.ir.ripplecompat.RippleDrawable.Style.Background ? view.getBackground() : null, style);
+        }
+        rippleDrawable.setCallback(view);
+        rippleDrawable.setHotspotEnabled(useHotspot);
+        rippleDrawable.setRadius(radius);
+        return rippleDrawable;
     }
 
-
-    public static ColorDrawable getColorDrawableFromColor(int color)
-    {
-        return new ColorDrawable(color);
-    }
-
-    private static Drawable getRippleMask(int color) {
-        float[] outerRadii = new float[8];
-        // 3 is radius of final ripple,
-        // instead of 3 you can give required final radius
-        Arrays.fill(outerRadii, 3);
-
-        RoundRectShape r = new RoundRectShape(outerRadii, null, null);
-        ShapeDrawable shapeDrawable = new ShapeDrawable(r);
-        shapeDrawable.getPaint().setColor(color);
-        return shapeDrawable;
-    }
-
-    public static StateListDrawable getStateListDrawable(int normalColor, int pressedColor) {
-        StateListDrawable states = new StateListDrawable();
-        states.addState(new int[]{android.R.attr.state_pressed},
-                new ColorDrawable(pressedColor));
-        states.addState(new int[]{android.R.attr.state_focused},
-                new ColorDrawable(pressedColor));
-        states.addState(new int[]{android.R.attr.state_activated},
-                new ColorDrawable(pressedColor));
-        states.addState(new int[]{},
-                new ColorDrawable(normalColor));
-        return states;
+    public static ayalma.ir.ripplecompat.RippleDrawable createRippleDrawable(ColorStateList color, ayalma.ir.ripplecompat.RippleDrawable.Style style, View view, Drawable background, boolean useHotspot, int radius) {
+        ayalma.ir.ripplecompat.RippleDrawable rippleDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            rippleDrawable = new RippleDrawableMarshmallow(color, background, style);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            rippleDrawable = new RippleDrawableLollipop(color, background, style);
+        } else {
+            rippleDrawable = new RippleDrawableFroyo(color, background, style);
+        }
+        rippleDrawable.setCallback(view);
+        rippleDrawable.setHotspotEnabled(useHotspot);
+        rippleDrawable.setRadius(radius);
+        return rippleDrawable;
     }
 }

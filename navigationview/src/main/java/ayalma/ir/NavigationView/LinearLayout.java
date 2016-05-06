@@ -2,8 +2,6 @@ package ayalma.ir.NavigationView;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -15,12 +13,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-import ayalma.ir.navigationview.R;
 import ayalma.ir.ripplecompat.EmptyDrawable;
 import ayalma.ir.ripplecompat.RippleDrawable;
-import ayalma.ir.ripplecompat.RippleDrawableFroyo;
-import ayalma.ir.ripplecompat.RippleDrawableLollipop;
-import ayalma.ir.ripplecompat.RippleDrawableMarshmallow;
 import ayalma.ir.ripplecompat.RippleView;
 
 /**

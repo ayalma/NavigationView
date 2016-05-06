@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/NavigationView.iml" filepath="$PROJECT_DIR$/NavigationView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/navigationview/navigationview.iml" filepath="$PROJECT_DIR$/navigationview/navigationview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ripplecompat/ripplecompat.iml" filepath="$PROJECT_DIR$/ripplecompat/ripplecompat.iml" />
     </modules>
   </component>
 </project>

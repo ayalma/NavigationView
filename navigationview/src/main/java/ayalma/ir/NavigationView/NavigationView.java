@@ -1,6 +1,7 @@
 package ayalma.ir.NavigationView;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ayalma.ir.navigationview.R;
+import ayalma.ir.ripplecompat.RippleDrawable;
 
 
 /**
@@ -70,18 +72,18 @@ public class NavigationView extends RecyclerView
             {
                 menu = a.getResourceId(attr, -1);
             }
-            else if (attr == R.styleable.NavigationView_itemRippleColor)
+            else if (attr == R.styleable.NavigationView_item_rippleColor)
             {
                 setRowRippleColor(a.getColor(attr,Color.parseColor("#252525")));
             }
-            else if (attr == R.styleable.NavigationView_itemBackgroundColor)
+          /*  else if (attr == R.styleable.NavigationView_itemBackgroundColor)
             {
                 setRowBackGroundColor(a.getColor(attr,Color.parseColor("#252525")));
 
-            }
+            }*/
             else if (attr == R.styleable.NavigationView_itemIconTint)
             {
-                setItemIconTint(a.getColor(attr,Color.parseColor("#252525")));
+                setItemIconTint(a.getColor(attr, Color.parseColor("#252525")));
             }
             else if (attr == R.styleable.NavigationView_itemTextColor)
             {
@@ -246,6 +248,8 @@ public class NavigationView extends RecyclerView
                     position = position - 1;
 
                 ItemHolder itemHolder = (ItemHolder) holder;
+
+                itemHolder.ivc.setRippleDrawable(Util.createRippleDrawable(ColorStateList.valueOf(rippleColor), RippleDrawable.Style.Background,((ItemHolder) holder).ivc,false,-1));
                 itemHolder.iv.setImageDrawable(items.get(position).getIcon());
                 itemHolder.tv.setText(items.get(position).getTitle());
 
@@ -253,8 +257,7 @@ public class NavigationView extends RecyclerView
                 itemHolder.tv.setTextColor(itemTextColor);
 
                 final int finalPosition = position;
-                itemHolder.ivc.setOnClickListener(new OnClickListener()
-                {
+                itemHolder.ivc.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (mListener != null)
@@ -262,18 +265,9 @@ public class NavigationView extends RecyclerView
                     }
                 });
 
-                if (Build.VERSION.SDK_INT >= 21) {
-                    itemHolder.itemView.setBackgroundColor(backColor);
-                    itemHolder.ivc.setBackgroundColor(backColor);
-                    itemHolder.ivc.setBackground(Util.getPressedColorRippleDrawable(backColor, rippleColor));
-                }
-                else {
-                    itemHolder.itemView.setBackgroundColor(backColor);
-                    itemHolder.ivc.setBackgroundDrawable(Util.getStateListDrawable(backColor, rippleColor));
 
-                }
-                itemHolder.dvc.setVisibility((items.get(position).isHeader()) ? VISIBLE : GONE);
-                itemHolder.stv.setText(items.get(position).getHeaderTitle());
+               /* itemHolder.dvc.setVisibility((items.get(position).isHeader()) ? VISIBLE : GONE);
+                itemHolder.stv.setText(items.get(position).getHeaderTitle());*/
             }
 
         }
@@ -350,21 +344,15 @@ public class NavigationView extends RecyclerView
 
     public static class ItemHolder extends RecyclerView.ViewHolder {
         TextView tv;
-        TextView stv;
         ImageView iv;
-        View dv;
-        View dvc;
-        View ivc; // itemViewContainer
+        LinearLayout ivc; // itemViewContainer
 
 
         public ItemHolder(View itemView) {
             super(itemView);
             tv = (TextView) itemView.findViewById(R.id.nav_itemText);
             iv = (ImageView) itemView.findViewById(R.id.nav_itemIcon);
-            stv = (TextView) itemView.findViewById(R.id.nav_subTitle);
-            dv = itemView.findViewById(R.id.nav_subDivider);
-            dvc = itemView.findViewById(R.id.nav_subContainer);
-            ivc = itemView.findViewById(R.id.nav_itemContainer);
+            ivc = (LinearLayout) itemView.findViewById(R.id.nav_itemContainer);
         }
     }
 

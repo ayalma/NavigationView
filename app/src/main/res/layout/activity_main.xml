@@ -23,8 +23,7 @@
         android:clipToPadding="false"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
-        app:itemRippleColor="@color/colorAccent"
-        app:itemBackgroundColor="#fefefe"
+        app:item_rippleColor="@color/colorAccent"
         app:itemTextColor="#252525"
         app:itemIconTint="@color/colorAccent"
         />

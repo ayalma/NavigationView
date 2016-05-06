@@ -306,20 +306,20 @@ public class LollipopDrawablesCompat {
         @Override
         public void applyTheme(Drawable drawable, Resources.Theme t) {
             if (drawable instanceof LollipopDrawable) {
-                ((LollipopDrawable) drawable).applyTheme(t);
+                drawable.applyTheme(t);
             }
         }
 
         @Override
         public boolean canApplyTheme(Drawable drawable) {
-            return drawable instanceof LollipopDrawable && ((LollipopDrawable) drawable).canApplyTheme();
+            return drawable instanceof LollipopDrawable && drawable.canApplyTheme();
         }
 
         @Override
         public void inflate(Drawable drawable, Resources r, XmlPullParser parser, AttributeSet attrs, Resources.Theme theme) throws XmlPullParserException, IOException {
 
             if (drawable instanceof LollipopDrawable) {
-                ((LollipopDrawable) drawable).inflate(r, parser, attrs, theme);
+                drawable.inflate(r, parser, attrs, theme);
                 return;
             }
 
