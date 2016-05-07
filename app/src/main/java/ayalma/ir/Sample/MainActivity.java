@@ -1,15 +1,9 @@
 package ayalma.ir.Sample;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -34,9 +28,9 @@ public class MainActivity extends AppCompatActivity{
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(int position)
+            public boolean onNavigationItemSelected(MenuItem menuItem)
             {
-                Toast.makeText(getBaseContext(),"row "+(position+1)+" click",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),"row "+(menuItem.getTitle())+" click",Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

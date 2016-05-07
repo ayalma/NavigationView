@@ -8,7 +8,7 @@ package ayalma.ir.NavigationView;
  */
 public enum HolderType
 {
-    Header(1),Item(2);
+    Header(1),Item(2),SubMenuTitle(3);
 
     int value;
 

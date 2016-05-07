@@ -20,9 +20,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ayalma.ir.navigationview.R;
 import ayalma.ir.ripplecompat.RippleDrawable;
 
@@ -32,8 +29,7 @@ import ayalma.ir.ripplecompat.RippleDrawable;
  *
  * @author alimohammadi.
  */
-public class NavigationView extends RecyclerView
-{
+public class NavigationView extends RecyclerView {
 
     OnNavigationItemSelectedListener mListener;
 
@@ -60,33 +56,24 @@ public class NavigationView extends RecyclerView
         int menu = -1;
         int headerView = -1;
 
-        for (int i = 0; i < a.getIndexCount(); i++)
-        {
+        for (int i = 0; i < a.getIndexCount(); i++) {
             int attr = a.getIndex(i);
 
-            if (attr == R.styleable.NavigationView_headerLayout)
-            {
+            if (attr == R.styleable.NavigationView_headerLayout) {
                 headerView = a.getResourceId(attr, -1);
-            }
-            else if (attr == R.styleable.NavigationView_menu)
-            {
+            } else if (attr == R.styleable.NavigationView_menu) {
                 menu = a.getResourceId(attr, -1);
-            }
-            else if (attr == R.styleable.NavigationView_item_rippleColor)
-            {
-                setRowRippleColor(a.getColor(attr,Color.parseColor("#252525")));
+            } else if (attr == R.styleable.NavigationView_item_rippleColor) {
+                setRowRippleColor(a.getColor(attr, Color.parseColor("#252525")));
             }
           /*  else if (attr == R.styleable.NavigationView_itemBackgroundColor)
             {
                 setRowBackGroundColor(a.getColor(attr,Color.parseColor("#252525")));
 
             }*/
-            else if (attr == R.styleable.NavigationView_itemIconTint)
-            {
+            else if (attr == R.styleable.NavigationView_itemIconTint) {
                 setItemIconTint(a.getColor(attr, Color.parseColor("#252525")));
-            }
-            else if (attr == R.styleable.NavigationView_itemTextColor)
-            {
+            } else if (attr == R.styleable.NavigationView_itemTextColor) {
                 setItemTextColor(a.getColor(attr, Color.parseColor("#252525")));
             }
         }
@@ -99,7 +86,7 @@ public class NavigationView extends RecyclerView
         if (headerView != -1)
             setHeader(headerView);
 
-        if (headerView!=-1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (headerView != -1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             addItemDecoration(new SpacesItemDecoration());
 
 
@@ -114,8 +101,7 @@ public class NavigationView extends RecyclerView
         ((Adapter) getAdapter()).setHeaderView(resId);
     }
 
-    public void setMenu(int resId)
-    {
+    public void setMenu(int resId) {
         Menu menu = new MenuBuilder(getContext());
         MenuInflater inflater = new MenuInflater(getContext());
         inflater.inflate(resId, menu);
@@ -124,47 +110,10 @@ public class NavigationView extends RecyclerView
 
     public void setMenu(Menu menu) {
 
-        List<NavRowItem> rowItems = new ArrayList<>();
-
-        NavRowItem rowItem;
-        MenuItem menuItem;
-
-        for (int i = 0; i < menu.size(); i++) {
-            menuItem = menu.getItem(i);
-            if (menuItem.hasSubMenu()) {
-                for (int j = 0; j < menuItem.getSubMenu().size(); j++)
-                {
-                    rowItem = new NavRowItem();
-
-                    rowItem.setId(menuItem.getSubMenu().getItem(j).getItemId());
-                    rowItem.setTitle(menuItem.getSubMenu().getItem(j).getTitle().toString());
-                    rowItem.setIcon(menuItem.getSubMenu().getItem(j).getIcon());
-
-                    if (j == 0) {
-                        rowItem.setHeader(true);
-                        rowItem.setHeaderTitle(menuItem.getTitle().toString());
-                    } else rowItem.setHeader(false);
-
-                    rowItems.add(rowItem);
-                }
-            } else
-            {
-                rowItem = new NavRowItem();
-
-                rowItem.setId(menuItem.getItemId());
-                rowItem.setTitle(menuItem.getTitle().toString());
-                rowItem.setIcon(menuItem.getIcon());
-
-                rowItems.add(rowItem);
-            }
-
-        }
-
-        if (getAdapter() == null)
-        {
+        if (getAdapter() == null) {
             setAdapter(new Adapter());
         }
-        ((Adapter) getAdapter()).setItems(rowItems);
+        ((Adapter) getAdapter()).setItems(menu);
     }
 
     public OnNavigationItemSelectedListener getNavigationItemSelectedListener() {
@@ -173,16 +122,14 @@ public class NavigationView extends RecyclerView
 
     public void setNavigationItemSelectedListener(OnNavigationItemSelectedListener listener) {
         this.mListener = listener;
-        if (getAdapter() == null)
-        {
+        if (getAdapter() == null) {
             setAdapter(new Adapter());
         }
         ((Adapter) getAdapter()).setNavigationItemSelectedListener(listener);
     }
 
     public void setRowRippleColor(int rowRippleColor) {
-        if (getAdapter() == null)
-        {
+        if (getAdapter() == null) {
             setAdapter(new Adapter());
         }
         ((Adapter) getAdapter()).setRippleColor(rowRippleColor);
@@ -190,93 +137,140 @@ public class NavigationView extends RecyclerView
 
     public void setRowBackGroundColor(int rowBackGroundColor) {
 
-        if (getAdapter() == null)
-        {
+        if (getAdapter() == null) {
             setAdapter(new Adapter());
         }
         ((Adapter) getAdapter()).setBackColor(rowBackGroundColor);
     }
 
     public void setItemIconTint(int itemIconTint) {
-        if (getAdapter() == null)
-        {
+        if (getAdapter() == null) {
             setAdapter(new Adapter());
         }
         ((Adapter) getAdapter()).setItemIconTint(itemIconTint);
     }
 
-    public void setItemTextColor(int itemTextColor)
-    {
-        if (getAdapter() == null)
-        {
+    public void setItemTextColor(int itemTextColor) {
+        if (getAdapter() == null) {
             setAdapter(new Adapter());
         }
         ((Adapter) getAdapter()).setItemTextColor(itemTextColor);
     }
 
-    public static class Adapter extends RecyclerView.Adapter<ViewHolder>
-    {
+    public static class Adapter extends RecyclerView.Adapter<ViewHolder> {
         OnNavigationItemSelectedListener mListener;
         int rippleColor = Color.parseColor("#252525");
         int backColor = Color.parseColor("#252525");
         int itemTextColor = Color.parseColor("#000000");
         int itemIconTint = Color.parseColor("#000000");
 
-        private List<NavRowItem> items = null;
+        private Menu items = null;
         private int headerView;
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view ;
-            if (viewType == HolderType.Header.getValue())
-            {
+            View view;
+            if (viewType == HolderType.Header.getValue()) {
                 view = inflater.inflate(headerView, parent, false);
                 return new headerHolder(view);
-            } else {
+            } else if (viewType == HolderType.Item.getValue()) {
                 view = inflater.inflate(R.layout.navigation_row_rtl, parent, false);
                 return new ItemHolder(view);
+            } else {
+                view = inflater.inflate(R.layout.nav_sub_title_row, parent, false);
+                return new subTitleHolder(view);
             }
 
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            if (holder instanceof ItemHolder)
-            {
-                if (headerView != 0)
-                    position = position - 1;
 
-                ItemHolder itemHolder = (ItemHolder) holder;
+            if (isHeader(position))
+                return;
 
-                itemHolder.ivc.setRippleDrawable(Util.createRippleDrawable(ColorStateList.valueOf(rippleColor), RippleDrawable.Style.Background,((ItemHolder) holder).ivc,false,-1));
-                itemHolder.iv.setImageDrawable(items.get(position).getIcon());
-                itemHolder.tv.setText(items.get(position).getTitle());
+            if (headerView != 0)
+                position--;
 
-                itemHolder.iv.setColorFilter(itemIconTint);
-                itemHolder.tv.setTextColor(itemTextColor);
+            for (int group = 0; group < items.size(); ) {
 
-                final int finalPosition = position;
-                itemHolder.ivc.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (mListener != null)
-                            mListener.onNavigationItemSelected(finalPosition);
+                if (items.getItem(group).hasSubMenu()) {
+                    if (position > 0) {
+
+                        position--;
+                        if (position < items.getItem(group).getSubMenu().size()) {
+                            onBindItemViewHolder((ItemHolder) holder, group, position);
+                            return;
+                        }
+                        position -= items.getItem(group).getSubMenu().size();
+                        group++;
+
+                    } else {
+                        onBindSubTitleHolder((subTitleHolder) holder, group);
+                        return;
                     }
-                });
 
-
-               /* itemHolder.dvc.setVisibility((items.get(position).isHeader()) ? VISIBLE : GONE);
-                itemHolder.stv.setText(items.get(position).getHeaderTitle());*/
+                } else if (position > 0) {
+                    group++;
+                    position--;
+                } else {
+                    onBindItemViewHolder((ItemHolder) holder, group, position);
+                    return;
+                }
             }
+            throw new IndexOutOfBoundsException();
 
+        }
+
+        private void onBindItemViewHolder(ItemHolder holder, final int group, final int child) {
+
+            MenuItem item = getChildItem(group, child);
+
+            holder.ivc.setRippleDrawable(Util.createRippleDrawable(ColorStateList.valueOf(rippleColor), RippleDrawable.Style.Background, holder.ivc, false, -1));
+
+            holder.iv.setImageDrawable(item.getIcon());
+            holder.tv.setText(item.getTitle());
+
+            holder.iv.setColorFilter(itemIconTint);
+            holder.tv.setTextColor(itemTextColor);
+
+            holder.ivc.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mListener != null)
+                        mListener.onNavigationItemSelected(getChildItem(group, child));
+                }
+            });
+
+        }
+
+
+
+        private void onBindSubTitleHolder(subTitleHolder holder, int group)
+        {
+            holder.subTitleTxt.setText(items.getItem(group).getTitle());
+            holder.subTitleTxt.setTextColor(itemTextColor);
+        }
+
+        private MenuItem getChildItem(int group, int child) {
+            if (items.getItem(group).hasSubMenu())
+                return items.getItem(group).getSubMenu().getItem(child);
+            else return items.getItem(group);
         }
 
         @Override
         public int getItemCount() {
+
+            int size = 0;
             if (headerView != 0)
-                return items.size() + 1;
-            else return items.size();
+                size++;
+
+            for (int i = 0; i < items.size(); i++) {
+                size += items.getItem(i).hasSubMenu() ? items.getItem(i).getSubMenu().size() + 1 : 1;
+            }
+
+            return size;
         }
 
         public OnNavigationItemSelectedListener getsetNavigationItemSelectedListener() {
@@ -319,7 +313,7 @@ public class NavigationView extends RecyclerView
             this.itemIconTint = itemIconTint;
         }
 
-        public void setItems(List<NavRowItem> items) {
+        public void setItems(Menu items) {
             this.items = items;
         }
 
@@ -329,14 +323,36 @@ public class NavigationView extends RecyclerView
 
         @Override
         public int getItemViewType(int position) {
+
+
             if (isHeader(position))
                 return HolderType.Header.getValue();
-            else return HolderType.Item.getValue();
 
+
+            if (headerView != 0)
+                position--;
+
+            for (int group = 0; group < items.size(); ) {
+                if (items.getItem(group).hasSubMenu()) {
+                    if (position > 0) {
+
+                        position--;
+                        if (position < items.getItem(group).getSubMenu().size())
+                            return HolderType.Item.getValue();
+
+                        position -= items.getItem(group).getSubMenu().size();
+                        group++;
+                    } else return HolderType.SubMenuTitle.getValue();
+
+                } else if (position > 0) {
+                    group++;
+                    position--;
+                } else return HolderType.Item.getValue();
+            }
+            throw new IndexOutOfBoundsException();
         }
 
-        private boolean isHeader(int position)
-        {
+        private boolean isHeader(int position) {
             return position == 0 && headerView != 0;
         }
     }
@@ -364,6 +380,18 @@ public class NavigationView extends RecyclerView
 
     }
 
+    private static class subTitleHolder extends RecyclerView.ViewHolder {
+
+        private View divider;
+        private TextView subTitleTxt;
+
+        public subTitleHolder(View itemView) {
+            super(itemView);
+            subTitleTxt = (TextView) itemView.findViewById(R.id.nav_sub_txt);
+            divider = itemView.findViewById(R.id.nav_sub_divider);
+        }
+    }
+
     private class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 
@@ -375,7 +403,7 @@ public class NavigationView extends RecyclerView
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-            if(parent.getChildAdapterPosition(view) == 0){
+            if (parent.getChildAdapterPosition(view) == 0) {
                 outRect.top = space;
                 outRect.bottom = 0; //dont forget about recycling...
             }
@@ -394,11 +422,10 @@ public class NavigationView extends RecyclerView
         /**
          * Called when an item in the navigation menu is selected.
          *
-         * @param position The selected item position
-         *
+         * @param menuItem The selected menuItem
          * @return true to display the item as the selected item
          */
-        boolean onNavigationItemSelected(int position);
+        boolean onNavigationItemSelected(MenuItem menuItem);
     }
 }
 
